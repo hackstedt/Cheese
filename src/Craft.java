@@ -29,15 +29,19 @@ public class Craft {
         x = 0;
         y = 0;
     }
+    
 
 
     public void move() {
+    	if (direction!=null){
     	switch(direction){
     	case Up: y-=1; break;
-    	case Right: x=+1; break;
+    	case Right: x+=1; break;
     	case Down:y+=1; break;
     	case Left: x-=1; break;
     	}
+    	}
+    	
     }
 
     public int getX() {
@@ -46,6 +50,10 @@ public class Craft {
 
     public int getY() {
         return y;
+    }
+    
+    public Point getPosition(){
+    	return new Point(x,y);
     }
     
    

@@ -9,6 +9,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Line2D;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -43,11 +46,37 @@ public class Board extends JPanel implements ActionListener {
         Polygon p = world.cheese.getPolygon();
         // draw cheese
         g2d.fillPolygon(p);
+        
         // draw craft
         g2d.drawImage(world.craft.getImage(), world.craft.getX(), world.craft.getY(), this);
         // Point p1 = world.cheese.getEntryOrExitPoint(new Point(world.craft.getX(),world.craft.getY()),world.craft.getDirection());
+        
+        // draw entryOrExitPoint
         g2d.setColor(Color.RED);
-        // g2d.drawOval((int)p1.getX(), (int) p1.getY(), 10, 10);
+        Point p1 = world.entryOrExitPoint;
+        if (p1 != null)
+        	g2d.drawOval((int)p1.getX(), (int) p1.getY(), 10, 10);
+        // 
+        g2d.drawString((new Boolean(world.isCraftInside())).toString(), 10,10);
+        
+        // draw Schnittkante
+        g2d.setColor(Color.MAGENTA);
+        Point pa,pb;
+        pa = new Point(0,0); 
+        pb = new Point(0,0);
+        LinkedList<Point> sk = world.schnittkante;
+        if(sk!=null){
+        	Iterator<Point> it = sk.iterator();
+        	if (it.hasNext())
+        		pa = it.next();
+        	while (it.hasNext()) {
+    			pb = it.next();   			
+    			g2d.drawLine(pa.x, pa.y, pb.x, pb.y);
+    			pa=pb;
+    		}
+        	g2d.drawLine(pa.x, pa.y, world.craft.getX(), world.craft.getY());
+        }
+        
        
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
@@ -76,7 +105,7 @@ public class Board extends JPanel implements ActionListener {
         	case KeyEvent.VK_UP: direction = Direction.Up; break;
         	case KeyEvent.VK_RIGHT: direction = Direction.Right; break;
         	case KeyEvent.VK_DOWN: direction = Direction.Down; break;
-        	default: direction = Direction.Down; 
+        	default: direction = null; 
         	}
         	world.changeDirection(direction);
         }
