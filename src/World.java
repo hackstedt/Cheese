@@ -41,7 +41,7 @@ public class World {
 		// check if craft just entered the cheese
 		if(!isCraftInside() && cheese.isInside(craft.getPosition())){
 			schnittkante = new LinkedList<Point>();
-			schnittkante.add(entryOrExitPoint);
+			schnittkante.add(craft.getPosition());
 		}
 		// check if craft just left the cheese
 		if(isCraftInside() && !cheese.isInside(craft.getPosition())){

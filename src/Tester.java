@@ -37,13 +37,23 @@ public class Tester {
 		System.out.println("Test der Randfälle");
 		Point testpunkt2 = new Point(50,100);
 		
-	    //	System.out.println(c.getNachfolger(testpunkt2));
+	    System.out.println(c.getNachfolger(testpunkt2));
 		System.out.println(c.getVorgaenger(testpunkt2));	
 		
 		System.out.println("Test der cut-Methode");
 		LinkedList<Point> schnittkante=new LinkedList<Point>();
 		schnittkante.add(new Point(100,50));
 		schnittkante.add(new Point(100,550));
+		System.out.println( c.cut(schnittkante) );
+		
+		schnittkante=new LinkedList<Point>();
+		schnittkante.add(new Point(100,550));
+		schnittkante.add(new Point(100,50));
+		System.out.println( c.cut(schnittkante) );
+		
+		schnittkante=new LinkedList<Point>();
+		schnittkante.add(new Point(50,100));
+		schnittkante.add(new Point(750,100));
 		System.out.println( c.cut(schnittkante) );
 
 	}
