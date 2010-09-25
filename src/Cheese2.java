@@ -37,7 +37,19 @@ public class Cheese2 {
 	}
 	
 	public Polygon getPolygon(){
-		return new Polygon();
+		ListIterator<Point> it= points.listIterator(0);
+		Point p; 
+		int size = points.size();
+		int[] xpoints = new int[size];
+		int[] ypoints = new int[size];
+		int i=0;
+		while(it.hasNext()){
+			p= it.next();
+			xpoints[i]=p.x;
+			ypoints[i]=p.y;
+			i++;
+		}
+		return new Polygon(xpoints,ypoints,size);
 	}
 	
 	/**
@@ -50,7 +62,7 @@ public class Cheese2 {
 	}
 	
 	public boolean isInside(Point p){
-		return true;
+		return (getPolygon().contains(p));
 	}
 	
 	public double area(){

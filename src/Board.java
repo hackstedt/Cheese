@@ -21,7 +21,7 @@ public class Board extends JPanel implements ActionListener {
 	private World world;
     private Timer timer;
     private Craft craft;
-    private Cheese cheese;
+    private Cheese2 cheese;
 
     public Board() {
 
@@ -32,7 +32,7 @@ public class Board extends JPanel implements ActionListener {
         world = new World();
 
         craft = new Craft();
-        cheese = new Cheese();
+        cheese = new Cheese2();
         
         timer = new Timer(5, this);
         timer.start();
@@ -43,6 +43,7 @@ public class Board extends JPanel implements ActionListener {
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D)g;
+        
         Polygon p = world.cheese.getPolygon();
         // draw cheese
         g2d.fillPolygon(p);
@@ -51,12 +52,7 @@ public class Board extends JPanel implements ActionListener {
         g2d.drawImage(world.craft.getImage(), world.craft.getX(), world.craft.getY(), this);
         // Point p1 = world.cheese.getEntryOrExitPoint(new Point(world.craft.getX(),world.craft.getY()),world.craft.getDirection());
         
-        // draw entryOrExitPoint
-        g2d.setColor(Color.RED);
-        Point p1 = world.entryOrExitPoint;
-        if (p1 != null)
-        	g2d.drawOval((int)p1.getX(), (int) p1.getY(), 10, 10);
-        // 
+       
         g2d.drawString((new Boolean(world.isCraftInside())).toString(), 10,10);
         
         // draw Schnittkante
