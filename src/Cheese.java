@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 public class Cheese {
 	Polygon polygon;
+	
 	Cheese(){
 		polygon=new Polygon();
 		polygon.addPoint(50, 50); 

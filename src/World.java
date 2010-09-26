@@ -8,6 +8,9 @@ import java.util.LinkedList;
 public class World {
 	
 	// beteiligte "reale" Objekte
+	// TODO: das sollte man eher nicht public machen. Es darf doch nur diese
+	// Klasse die beiden Objekte aendern. In C++ wuerde man dann konstante Referenzen
+	// als getter Methoden einbauen, sowas geht sicher auch in Java.
 	public Cheese cheese;
 	public Craft craft;
 	// second player
@@ -20,12 +23,11 @@ public class World {
 	public World(){
 		cheese = new Cheese();
 		craft = new Craft();
-		
 	}
 	
 	/**
 	 * 
-	 * @return Wheter the craft is inside the cheese or not.
+	 * @return Whether the craft is inside the cheese or not.
 	 */
 	public boolean isCraftInside(){
 		return (! (schnittkante == null));
@@ -34,6 +36,7 @@ public class World {
 	/**
 	 *  Changes the world every timer tick
 	 */
+	// TODO: Umbenennen, die Welt bewegt sich ja nicht.
 	public void move(){
 		// move craft
 		craft.move();

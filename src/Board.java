@@ -20,6 +20,7 @@ import javax.swing.Timer;
 public class Board extends JPanel implements ActionListener {
 	private World world;
     private Timer timer;
+    //TODO: diese Objekte gehoeren doch zu world, hier ueberfluessig
     private Craft craft;
     private Cheese cheese;
 
@@ -37,7 +38,6 @@ public class Board extends JPanel implements ActionListener {
         timer = new Timer(5, this);
         timer.start();
     }
-
 
     public void paint(Graphics g) {
         super.paint(g);
@@ -76,40 +76,31 @@ public class Board extends JPanel implements ActionListener {
     		}
         	g2d.drawLine(pa.x, pa.y, world.craft.getX(), world.craft.getY());
         }
-        
-       
+
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
-    
-    
-
 
     public void actionPerformed(ActionEvent e) {
         world.move();
         repaint();  
     }
 
-
     private class TAdapter extends KeyAdapter {
-
-
+    	
         public void keyPressed(KeyEvent e) {
-
             Direction direction;
-            
         	int key = e.getKeyCode();
-        	
         	switch(key) {
-        	case KeyEvent.VK_LEFT: direction = Direction.Left; break;
-        	case KeyEvent.VK_UP: direction = Direction.Up; break;
-        	case KeyEvent.VK_RIGHT: direction = Direction.Right; break;
-        	case KeyEvent.VK_DOWN: direction = Direction.Down; break;
-        	default: direction = null; 
+	        	case KeyEvent.VK_LEFT: direction = Direction.Left; break;
+	        	case KeyEvent.VK_UP: direction = Direction.Up; break;
+	        	case KeyEvent.VK_RIGHT: direction = Direction.Right; break;
+	        	case KeyEvent.VK_DOWN: direction = Direction.Down; break;
+	        	default: direction = null; 
         	}
-        	world.changeDirection(direction);
+        	if (direction != null)
+        		world.changeDirection(direction);
         }
     }
 
 }
-
