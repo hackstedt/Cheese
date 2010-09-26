@@ -20,6 +20,8 @@ public class Craft {
 
 	private int x;
     private int y;
+    private int previousx;
+    private int previousy;
     private Image image;
     
 
@@ -28,11 +30,15 @@ public class Craft {
         image = ii.getImage();
         x = 0;
         y = 0;
+        previousx=0;
+        previousy=0;
     }
     
 
 
     public void move() {
+    	previousx =x;
+    	previousy=y;
     	if (direction!=null){
     	switch(direction){
     	case Up: y-=1; break;
@@ -54,6 +60,10 @@ public class Craft {
     
     public Point getPosition(){
     	return new Point(x,y);
+    }
+    
+    public Point getPrivousPosition(){
+    	return new Point(previousx,previousy);
     }
     
    

@@ -20,8 +20,6 @@ import javax.swing.Timer;
 public class Board extends JPanel implements ActionListener {
 	private World world;
     private Timer timer;
-    private Craft craft;
-    private Cheese2 cheese;
 
     public Board() {
 
@@ -30,9 +28,6 @@ public class Board extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         world = new World();
-
-        craft = new Craft();
-        cheese = new Cheese2();
         
         timer = new Timer(5, this);
         timer.start();

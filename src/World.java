@@ -42,10 +42,12 @@ public class World {
 		if(!isCraftInside() && cheese.isInside(craft.getPosition())){
 			schnittkante = new LinkedList<Point>();
 			schnittkante.add(craft.getPosition());
+			System.out.println(craft.getPosition());
 		}
 		// check if craft just left the cheese
 		if(isCraftInside() && !cheese.isInside(craft.getPosition())){
-			// Käsezerteilungsalgoritmus
+			System.out.println(craft.getPrivousPosition());
+			// Cheese2 c=cheese.cut
 			schnittkante = null;
 		}
 		

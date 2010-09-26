@@ -1,4 +1,5 @@
 import java.awt.Point;
+import java.awt.Polygon;
 import java.util.LinkedList;
 
 
@@ -49,12 +50,19 @@ public class Tester {
 		schnittkante=new LinkedList<Point>();
 		schnittkante.add(new Point(100,550));
 		schnittkante.add(new Point(100,50));
-		System.out.println( c.cut(schnittkante) );
+		System.out.println( c.cut(schnittkante));
 		
 		schnittkante=new LinkedList<Point>();
 		schnittkante.add(new Point(50,100));
 		schnittkante.add(new Point(750,100));
-		System.out.println( c.cut(schnittkante) );
+		System.out.println( c.cut(schnittkante));
+		int[] xp= {0,10,10,0};
+		int[] yp= {0,0,10,10};
+		Polygon testpolygon = new Polygon(xp,yp,4);
+		System.out.println(testpolygon.contains(10, 10) );
+		System.out.println(testpolygon.contains(0, 0) );
+		
+		
 
 	}
 
