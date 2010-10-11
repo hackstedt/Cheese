@@ -6,7 +6,7 @@ import java.util.Vector;
 /**
  * The world contains the cheeses, crafts and balls.
  * 
- * @author Martin und Helge Böschen
+ * @author Martin und Helge Bï¿½schen
  *
  */
 public class World {
@@ -54,7 +54,11 @@ public class World {
 
 		crafts = new Vector<Craft>();
 		int lives = 3;
+		
+		// place craft in the upper left corner
 		crafts.add(new Craft(left, bottom, lives));
+		
+		// place crafts equidistantly on the left edge
 		for (int i = 1; i < craftCount; ++i)
 			crafts.add(new Craft(left, bottom + i*(top - bottom)/craftCount, lives));
 		
