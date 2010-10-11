@@ -25,6 +25,22 @@ public class Board extends JPanel implements ActionListener {
         timer = new Timer(5, this);
         timer.start();
     }
+    
+    public Board(String str)
+    {
+        addKeyListener(new TAdapter());
+        setFocusable(true);
+        setBackground(Color.BLACK);
+        setDoubleBuffered(true);
+        if (str.equals("SINGLE"))
+        		world = new World(5, 505, 5, 505, 1, 3);
+        else if (str.equals("TWOPLAYERLOCAL"))
+        		world = new World(5, 505, 5, 505, 2, 3);
+        else
+        	System.out.println("Error");
+        timer = new Timer(5, this);
+        timer.start();
+    }
 
     ///draws the entire setting
     public void paint(Graphics g) {
