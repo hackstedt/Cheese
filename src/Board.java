@@ -52,10 +52,9 @@ public class Board extends JPanel implements ActionListener {
 
 		int i = 1;
 		for (Craft c : world.getCrafts()) {
-			g2d.drawString("Player " + i + ": " + c.getPoints() + " Points", 600, 10 * i);
+			g2d.drawString("Player " + i + ": " + c.getPoints()*100 / world.getMaxPoints() + " Points", 600, 10 * i);
 			++i;
 		}
-		
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }

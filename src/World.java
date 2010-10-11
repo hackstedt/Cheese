@@ -14,6 +14,7 @@ public class World {
 	private Vector<Cheese> cheeses;
 	private Vector<Craft> crafts;
 	private Vector<Ball> balls;
+	private int left, right, bottom, top;
 
 	/** Creates new World with specified size.
 	 * @param left
@@ -23,7 +24,19 @@ public class World {
 	 * @param craftCount
 	 * @param ballCount
 	 */
-	public World(int left, int right, int bottom, int top, int craftCount, int ballCount) {
+	public World(int left, int right, int bottom, int top, int craftCount, int level) {
+		this.left = left; this.right = right; this.bottom = bottom; this.top = top;
+
+		crafts = new Vector<Craft>();
+		int lives = 3;
+		
+		// place crafts equidistantly on the left edge
+		for (int i = 0; i < craftCount; ++i)
+			crafts.add(new Craft(left, bottom + i*(top - bottom)/craftCount, lives));
+		initialize(crafts, level);
+	}
+
+	private void initialize(Vector<Craft> crafts, int level) {
 		// create main cheese
 		LinkedList<Point> vertices = new LinkedList<Point>();
 		vertices.add(new Point(left, bottom));
@@ -32,44 +45,14 @@ public class World {
 		vertices.add(new Point(left, top));
 		cheeses = new Vector<Cheese>();
 		cheeses.add(new Cheese(vertices, true, true));
-
-		// create border cheeses
-		vertices = new LinkedList<Point>();
-		vertices.add(new Point(left, bottom));
-		vertices.add(new Point(right, bottom));
-		vertices.add(new Point(right, top));
-		vertices.add(new Point(left, top));
-		vertices.add(new Point(left, top + 5));
-		vertices.add(new Point(right + 5, top + 5));
-		vertices.add(new Point(right + 5, bottom - 5));
-		vertices.add(new Point(left ,bottom - 5));
-		cheeses.add(new Cheese(vertices, true, false));
-
-		vertices = new LinkedList<Point>();
-		vertices.add(new Point(left, bottom - 5));
-		vertices.add(new Point(left, top + 5));
-		vertices.add(new Point(left - 5, top + 5));
-		vertices.add(new Point(left - 5, bottom - 5));
-		cheeses.add(new Cheese(vertices, true, false));	
-
-		crafts = new Vector<Craft>();
-		int lives = 3;
-		
-		// place craft in the upper left corner
-		crafts.add(new Craft(left, bottom, lives));
-		
-		// place crafts equidistantly on the left edge
-		for (int i = 1; i < craftCount; ++i)
-			crafts.add(new Craft(left, bottom + i*(top - bottom)/craftCount, lives));
-		
+		this.crafts = crafts;
 		balls = new Vector<Ball>();
-		balls.add(new Ball((left+right)/2, (bottom+top)/2, Direction.DownRight));
-		for (int i = 1; i < craftCount; ++i)
-			balls.add(new Ball((left+right)/2 + i*(right - (left+right)/2)/craftCount,
-							   (bottom+top)/2 + i*(top - (bottom+top)/2)/craftCount, 
-							   Direction.DownRight));	
+		for (int i = 0; i < level; ++i)
+			balls.add(new Ball((left+right)/2 + i*(right - (left+right)/2)/level,
+							   (bottom+top)/2 + i*(top - (bottom+top)/2)/level, 
+							   Direction.DownRight));			
 	}
-
+	
 	public Vector<Craft> getCrafts() { return crafts; }
 	public Vector<Ball> getBalls() { return balls; }
 	public Vector<Cheese> getCheeses() { return cheeses; }	
@@ -82,9 +65,11 @@ public class World {
 		// move the crafts
 		for (Craft c : crafts) {
 			c.move();
-			// a craft can't enter a dead cheese
-			if (insideDeadCheese(c))
-				c.setPosition(c.getPrivousPosition());
+			if (!insideWorld(c.getPosition())) {
+				c.setPosition(c.getPreviousPosition());
+				c.setDirection(null);
+				break;
+			}
 			// check if c hits a cutting edge and dies
 			for (Craft otherCraft : crafts) {
 				if (otherCraft.isOnCuttingEdge(c.getPosition())) {
@@ -98,7 +83,7 @@ public class World {
 				if (ch.isOnBorder(c.getPosition())) {
 					isOnBorder = true;
 					// check if we have to cut
-					if (ch.isInside(c.getPrivousPosition())) {
+					if (ch.isInside(c.getPreviousPosition())) {
 						c.addCuttingEdgePoint();
 						Vector<Cheese> newCheeses = ch.cut(c.getCuttingEdge());
 						cheeses.remove(ch);
@@ -162,5 +147,13 @@ public class World {
 		Craft c = crafts.get(craft);
 		if (dir != c.getDirection())
 			c.setDirection(dir);
+	}
+	
+	private boolean insideWorld(Point p) {
+		return p.x >= left && p.x <= right && p.y >= bottom && p.y <= top;
+	}
+	
+	public int getMaxPoints() {
+		return (right - left) * (top - bottom);
 	}
 }

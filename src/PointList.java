@@ -140,11 +140,18 @@ public class PointList {
 		return null;
 	}
 	
-	public int getLength() {
-		int length = 0;
-		for (Edge e : edges)
-			length += e.getLength();
-		return length;
+	public int getArea() {
+		int area = 0;
+		int j;
+		if (cyclic) {
+			for (int i = 0; i < points.size(); ++i) {
+				j = (i+1) % points.size();
+				area += points.get(i).x * points.get(j).y - points.get(j).x * points.get(i).y;
+			}
+		}
+		area = Math.abs(area);
+		area = area / 2;
+		return area;
 	}
 	public Polygon getPolygon() {
 		int[] xpoints = new int[points.size()];

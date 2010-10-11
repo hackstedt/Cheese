@@ -11,17 +11,14 @@ import javax.swing.ImageIcon;
  */
 public class Craft {
 
-    private String imageFilename = "craft.png";
     private Direction direction;
-	private int x, y;
-    private int previousX, previousY;
+	private int x, y, previousX, previousY;
     private Image image;
     private PointList cuttingEdge;
-    private int lives;
-    private int points;
+    private int lives, points;
 
     public Craft(int x, int y, int lives) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(imageFilename));
+        ImageIcon ii = new ImageIcon(this.getClass().getResource("craft.png"));
         image = ii.getImage();
         this.x = x;
         this.y = y;
@@ -83,7 +80,7 @@ public class Craft {
     public int getX() { return x; }
     public int getY() { return y; }
     public Point getPosition(){	return new Point(x,y); }
-    public Point getPrivousPosition(){ return new Point(previousX,previousY); }
+    public Point getPreviousPosition(){ return new Point(previousX,previousY); }
     public Image getImage() { return image; }
     public PointList getCuttingEdge() {	return cuttingEdge; }
 	public Direction getDirection() { return direction; }
