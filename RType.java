@@ -1,5 +1,11 @@
 import javax.swing.JFrame;
 
+/**
+ * Main program.
+ * 
+ * @author Martin und Helge Böschen
+ *
+ */
 public class RType extends JFrame {
 
     public RType() {
@@ -7,7 +13,7 @@ public class RType extends JFrame {
         add(new Board());
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setTitle("Cheese");
         setResizable(false);
