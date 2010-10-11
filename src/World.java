@@ -6,7 +6,7 @@ import java.util.Vector;
 /**
  * The world contains the cheeses, crafts and balls.
  * 
- * @author Martin und Helge B�schen
+ * @author Martin und Helge Boeschen
  *
  */
 public class World {
@@ -17,12 +17,12 @@ public class World {
 	private int left, right, bottom, top;
 
 	/** Creates new World with specified size.
-	 * @param left
-	 * @param right
-	 * @param bottom
-	 * @param top
-	 * @param craftCount
-	 * @param ballCount
+	 * @param left - xposition of left border
+	 * @param right - xposition of right border
+	 * @param bottom - yposition of down border
+	 * @param top - yposition of upper border
+	 * @param craftCount - number of crafts
+	 * @param ballCount  - number of balls
 	 */
 	public World(int left, int right, int bottom, int top, int craftCount, int level) {
 		this.left = left; this.right = right; this.bottom = bottom; this.top = top;
@@ -65,6 +65,7 @@ public class World {
 		// move the crafts
 		for (Craft c : crafts) {
 			c.move();
+			// if moving moved the craft out of the world, set it on the previous position
 			if (!insideWorld(c.getPosition())) {
 				c.setPosition(c.getPreviousPosition());
 				c.setDirection(null);

@@ -17,10 +17,12 @@ public class Cheese {
 	
 	/**
 	 * 
-	 * @param p
+	 * @param A PointList representing the cutting edge
 	 * @return two cheese
 	 */
 	public Vector<Cheese> cut(PointList cuttingEdge) {
+		// we build two cheeses by adding the appropriate vertices
+		
 		// both cheeses contain the cutting edge
 		Cheese cheeseOne = new Cheese(cuttingEdge.points, true, true);
 		Cheese cheeseTwo = new Cheese(cuttingEdge.points, false, true);
@@ -28,6 +30,8 @@ public class Cheese {
 		// find position of cuttingEdge.getLast
 		Edge e = vertices.getEdge(cuttingEdge.getLast());
 		// now cuttingEge.getLast() lies on e
+		
+		// welcher Sonderfall wird hier behandelt? 
 		if (e == vertices.getEdge(cuttingEdge.getFirst())) {
 			vertices.addVertex(cuttingEdge.getFirst());
 			vertices.addVertex(cuttingEdge.getLast());
@@ -39,6 +43,7 @@ public class Cheese {
     		cheeseOne.vertices.addVertexToEnd(e.end);
     		e = vertices.nextEdge(e);
     	}
+    	
 		// create second cheese
     	while (!Edge.isOnEdge(cuttingEdge.getLast(), e)) {
     		cheeseTwo.vertices.addVertexToEnd(e.end);

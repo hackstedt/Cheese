@@ -31,15 +31,21 @@ public class Board extends JPanel implements ActionListener {
         super.paint(g);
 
         Graphics2D g2d = (Graphics2D)g;
+        
+        // draw cheeses
 		for (Cheese c : world.getCheeses()) {
+			// draw dead cheese in gray
 			if (!c.isAlive()) {
 				g2d.setColor(Color.GRAY);
 				g2d.fillPolygon(c.getPolygon());
 			}
+			// draw surround edges in blue
 	        g2d.setColor(Color.BLUE);
 	        for (Edge e : c.getVertices().edges)		
 	    		g2d.drawLine(e.start.x, e.start.y, e.end.x, e.end.y);		
 		}	        
+		
+		// draw crafts
 		for (Craft c : world.getCrafts()) {
 	        g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
 	        // draw cuttingEdge
@@ -47,12 +53,15 @@ public class Board extends JPanel implements ActionListener {
 	        for (Edge e : c.getCuttingEdge().edges)
 	        	g2d.drawLine(e.start.x, e.start.y, e.end.x, e.end.y);
 		}
+		
+		//draw balls
 		for (Ball b : world.getBalls())
 			g2d.drawOval(b.getX(), b.getY(), 2, 2);
-
+		
+		// draw Scores
 		int i = 1;
 		for (Craft c : world.getCrafts()) {
-			g2d.drawString("Player " + i + ": " + c.getPoints()*100 / world.getMaxPoints() + " Points", 600, 10 * i);
+			g2d.drawString("Player " + i + ": " + c.getScore()*100 / world.getMaxPoints() + " Points", 600, 10 * i);
 			++i;
 		}
         Toolkit.getDefaultToolkit().sync();
