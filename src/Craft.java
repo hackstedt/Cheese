@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
 /**
- * @author Martin und Helge Böschen
+ * @author Martin und Helge Bï¿½schen
  *
  */
 public class Craft {
@@ -15,7 +15,7 @@ public class Craft {
 	private int x, y, previousX, previousY;
     private Image image;
     private PointList cuttingEdge;
-    private int lives, points;
+    private int lives, score;
 
     public Craft(int x, int y, int lives) {
         ImageIcon ii = new ImageIcon(this.getClass().getResource("craft.png"));
@@ -25,7 +25,7 @@ public class Craft {
         previousX = x;
         previousY = y;
         clearCuttingEdge();
-    	points = 0;
+    	score = 0;
     	this.lives = lives;
     }
 
@@ -63,6 +63,7 @@ public class Craft {
     	}
     }
     
+    // the craft is replaced to his entry point in the cheese
 	public void kill() { 
 		--lives; 
 		x = cuttingEdge.getFirst().x;
@@ -72,11 +73,11 @@ public class Craft {
 		clearCuttingEdge();
 	}
 	
-	public void addPoints(int points) { this.points += points; }
+	public void addPoints(int points) { this.score += points; }
 
     public void setPosition(Point p) { x = p.x; y = p.y; }
     public void setDirection(Direction direction) { this.direction = direction; }
-    public void givePoints(int points) { this.points += points; }
+    public void givePoints(int points) { this.score += points; }
     public int getX() { return x; }
     public int getY() { return y; }
     public Point getPosition(){	return new Point(x,y); }
@@ -85,5 +86,5 @@ public class Craft {
     public PointList getCuttingEdge() {	return cuttingEdge; }
 	public Direction getDirection() { return direction; }
 	public int getLives() { return lives; }
-	public int getPoints() { return points; }
+	public int getScore() { return score; }
 }
