@@ -60,7 +60,7 @@ public class Cheese {
 	public boolean isAlive() { return isAlive; }
 	public void setIsAlive(boolean value) { isAlive = value; }
 	public PointList getVertices(){	return vertices; }
-	public int getArea() { return vertices.getArea(); }
+	public float getArea() { return vertices.getArea(); }
 	public boolean isInside(Point p) { return vertices.isInside(p);	}
 	public boolean isOnBorder(Point p) { return vertices.isOnBorder(p);	}
 	public String toString() { return vertices.toString(); }

@@ -2,7 +2,6 @@ import java.awt.Point;
 import java.util.LinkedList;
 import java.util.Vector;
 
-
 /**
  * The world contains the cheeses, crafts and balls.
  * 
@@ -30,9 +29,9 @@ public class World {
 		crafts = new Vector<Craft>();
 		int lives = 3;
 		
-		// place crafts equidistantly on the left edge
+		// create crafts
 		for (int i = 0; i < craftCount; ++i)
-			crafts.add(new Craft(left, bottom + i*(top - bottom)/craftCount, lives));
+			crafts.add(new Craft(0, 0, lives));
 		initialize(crafts, level);
 	}
 
@@ -46,17 +45,20 @@ public class World {
 		cheeses = new Vector<Cheese>();
 		cheeses.add(new Cheese(vertices, true, true));
 		this.crafts = crafts;
+		// place crafts equidistantly on the left edge
+		int i = 0;
+		for (Craft c : crafts) {
+			c.setPosition(new Point(left, bottom + i*(top - bottom)/crafts.size()));
+			c.setPreviousPosition(c.getPosition());
+			++i;
+		}
 		balls = new Vector<Ball>();
-		for (int i = 0; i < level; ++i)
+		for (i = 0; i < level; ++i)
 			balls.add(new Ball((left+right)/2 + i*(right - (left+right)/2)/level,
 							   (bottom+top)/2 + i*(top - (bottom+top)/2)/level, 
 							   Direction.DownRight));			
 	}
 	
-	public Vector<Craft> getCrafts() { return crafts; }
-	public Vector<Ball> getBalls() { return balls; }
-	public Vector<Cheese> getCheeses() { return cheeses; }	
-
 	/**
 	 *  Changes the world every timer tick
 	 */
@@ -84,7 +86,7 @@ public class World {
 				if (ch.isOnBorder(c.getPosition())) {
 					isOnBorder = true;
 					// check if we have to cut
-					if (ch.isInside(c.getPreviousPosition())) {
+					if (ch.isAlive() && ch.isInside(c.getPreviousPosition())) {
 						c.addCuttingEdgePoint();
 						Vector<Cheese> newCheeses = ch.cut(c.getCuttingEdge());
 						cheeses.remove(ch);
@@ -93,16 +95,17 @@ public class World {
 						for (Cheese nCh : newCheeses) {
 							if (!containsBall(nCh)) {
 								nCh.setIsAlive(false);
-								c.givePoints(nCh.getArea());
+								c.addScore(nCh.getArea() / getMaxPoints());
 							}
 						} 
 						break;
 					}
 				}
 			}
-			if (isOnBorder)
+			if (isOnBorder || insideDeadCheese(c))
 				c.clearCuttingEdge();
-			c.addCuttingEdgePoint();
+			else
+				c.addCuttingEdgePoint();
 		}
 		// move the balls
 		for (Ball b : balls) {
@@ -121,6 +124,12 @@ public class World {
 					c.kill();
 			}
 		}
+       float allScores = 0;
+       int level = balls.size();
+       for (Craft c : crafts)
+    	   allScores += c.getScore();
+       if (allScores > 0.9 * level * getMaxPoints())
+    	   initialize(crafts, level + 1);		
 	}
 
 	/**
@@ -154,5 +163,8 @@ public class World {
 		return p.x >= left && p.x <= right && p.y >= bottom && p.y <= top;
 	}
 	
-	public int getMaxPoints() {	return (right - left) * (top - bottom);	}
+	public Vector<Craft> getCrafts() { return crafts; }
+	public Vector<Ball> getBalls() { return balls; }
+	public Vector<Cheese> getCheeses() { return cheeses; }	
+	public float getMaxPoints() {	return (float)((right - left) * (top - bottom));	}
 }

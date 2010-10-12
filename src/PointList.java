@@ -140,8 +140,8 @@ public class PointList {
 		return null;
 	}
 	
-	public int getArea() {
-		int area = 0;
+	public float getArea() {
+		float area = 0;
 		int j;
 		if (cyclic) {
 			for (int i = 0; i < points.size(); ++i) {

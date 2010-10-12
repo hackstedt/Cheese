@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 /**
  * Main program.
  * 
- * @author Martin und Helge B�schen
+ * @author Martin und Helge Boeschen
  *
  */
 public class RType extends JFrame {

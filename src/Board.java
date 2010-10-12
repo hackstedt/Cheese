@@ -33,9 +33,9 @@ public class Board extends JPanel implements ActionListener {
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         if (str.equals("SINGLE"))
-        		world = new World(5, 505, 5, 505, 1, 3);
+        		world = new World(5, 505, 5, 505, 1, 1);
         else if (str.equals("TWOPLAYERLOCAL"))
-        		world = new World(5, 505, 5, 505, 2, 3);
+        		world = new World(5, 505, 5, 505, 2, 1);
         else
         	System.out.println("Error");
         timer = new Timer(5, this);
@@ -63,7 +63,9 @@ public class Board extends JPanel implements ActionListener {
 		
 		// draw crafts
 		for (Craft c : world.getCrafts()) {
-	        g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
+	        //g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
+			g2d.setColor(Color.GREEN);
+			g2d.drawOval(c.getX(), c.getY(), 3, 3);
 	        // draw cuttingEdge
 	        g2d.setColor(Color.MAGENTA);
 	        for (Edge e : c.getCuttingEdge().edges)
@@ -77,7 +79,7 @@ public class Board extends JPanel implements ActionListener {
 		// draw Scores
 		int i = 1;
 		for (Craft c : world.getCrafts()) {
-			g2d.drawString("Player " + i + ": " + c.getScore()*100 / world.getMaxPoints() + " Points", 600, 10 * i);
+			g2d.drawString("Player " + i + ": " + c.toString(), 600, 10 * i);
 			++i;
 		}
         Toolkit.getDefaultToolkit().sync();
@@ -87,7 +89,7 @@ public class Board extends JPanel implements ActionListener {
     /// called by the timer
     public void actionPerformed(ActionEvent e) {
         world.move();
-        repaint();  
+        repaint();
     }
 
     private class TAdapter extends KeyAdapter {
