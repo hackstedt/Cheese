@@ -153,7 +153,5 @@ public class World {
 		return p.x >= left && p.x <= right && p.y >= bottom && p.y <= top;
 	}
 	
-	public int getMaxPoints() {
-		return (right - left) * (top - bottom);
-	}
+	public int getMaxPoints() {	return (right - left) * (top - bottom);	}
 }
