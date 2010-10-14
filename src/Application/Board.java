@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -7,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -26,16 +24,15 @@ public class Board extends JPanel implements ActionListener {
         timer.start();
     }
     
-    public Board(String str)
-    {
+    public Board(String str) {
         addKeyListener(new TAdapter());
         setFocusable(true);
         setBackground(Color.BLACK);
         setDoubleBuffered(true);
         if (str.equals("SINGLE"))
-        		world = new World(5, 505, 5, 505, 1, 1);
+			world = new World(5, 505, 5, 505, 1, 1);
         else if (str.equals("TWOPLAYERLOCAL"))
-        		world = new World(5, 505, 5, 505, 2, 1);
+			world = new World(5, 505, 5, 505, 2, 1);
         else
         	System.out.println("Error");
         timer = new Timer(5, this);
@@ -46,42 +43,48 @@ public class Board extends JPanel implements ActionListener {
     public void paint(Graphics g) {
         super.paint(g);
 
-        Graphics2D g2d = (Graphics2D)g;
-        
-        // draw cheeses
-		for (Cheese c : world.getCheeses()) {
+		// draw cheeses
+		for (int i = 0; i < world.getCheeseCount(); ++i) {
 			// draw dead cheese in gray
+			Cheese c = world.getCheeses()[i];
 			if (!c.isAlive()) {
-				g2d.setColor(Color.GRAY);
-				g2d.fillPolygon(c.getPolygon());
+				g.setColor(Color.GRAY);
+				//g.fillPolygon(world.getCheeses()[i].getPolygon());
 			}
 			// draw surround edges in blue
-	        g2d.setColor(Color.BLUE);
-	        for (Edge e : c.getVertices().edges)		
-	    		g2d.drawLine(e.start.x, e.start.y, e.end.x, e.end.y);		
-		}	        
-		
-		// draw crafts
-		for (Craft c : world.getCrafts()) {
-	        //g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
-			g2d.setColor(Color.GREEN);
-			g2d.drawOval(c.getX(), c.getY(), 3, 3);
-	        // draw cuttingEdge
-	        g2d.setColor(Color.MAGENTA);
-	        for (Edge e : c.getCuttingEdge().edges)
-	        	g2d.drawLine(e.start.x, e.start.y, e.end.x, e.end.y);
+			g.setColor(Color.BLUE);
+			for (int j = 0; j < c.getVertices().edgeSize; ++j) {
+				Edge e = c.getVertices().edges[j];
+				g.drawLine(e.start.x, e.start.y, e.end.x, e.end.y);
+			}
 		}
-		
+
+		// draw crafts
+		for (int i = 0; i < world.getPlayerCount(); ++i) {
+			Craft c = world.getCrafts()[i];
+			//g2d.drawImage(c.getImage(), c.getX(), c.getY(), this);
+			g.setColor(Color.GREEN);
+			g.drawArc(c.getPosition().x, c.getPosition().y, 3, 3, 0, 360);
+			// draw cuttingEdge
+			g.setColor(Color.RED);
+			for (int j = 0; j < c.getCuttingEdge().edgeSize; ++j) {
+				Edge e = c.getCuttingEdge().edges[j];
+				g.drawLine(e.start.x, e.start.y, e.end.x, e.end.y);
+			}
+		}
+
 		//draw balls
-		for (Ball b : world.getBalls())
-			g2d.drawOval(b.getX(), b.getY(), 2, 2);
-		
+		for (int i = 0; i < world.getLevel(); ++i)
+			g.drawArc(world.getBalls()[i].getPosition().x,
+					  world.getBalls()[i].getPosition().y, 2, 2, 0 , 360);
+
 		// draw Scores
 		int i = 1;
 		for (Craft c : world.getCrafts()) {
-			g2d.drawString("Player " + i + ": " + c.toString(), 600, 10 * i);
+			g.drawString("Player " + i + ": " + c.toString(), 600, 10 * i);
 			++i;
 		}
+
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
@@ -99,14 +102,14 @@ public class Board extends JPanel implements ActionListener {
             int craft = 0;
         	int key = e.getKeyCode();
         	switch(key) {
-	        	case KeyEvent.VK_LEFT:  dir = Direction.Left; break;
-	        	case KeyEvent.VK_UP:    dir = Direction.Up; break;
-	        	case KeyEvent.VK_RIGHT: dir = Direction.Right; break;
-	        	case KeyEvent.VK_DOWN:  dir = Direction.Down; break;
-	        	case KeyEvent.VK_A: craft = 1; dir = Direction.Left; break;
-	        	case KeyEvent.VK_W: craft = 1; dir = Direction.Up; break;
-	        	case KeyEvent.VK_D: craft = 1; dir = Direction.Right; break;
-	        	case KeyEvent.VK_S: craft = 1; dir = Direction.Down; break;
+	        	case KeyEvent.VK_LEFT:  dir = Direction.LEFT; break;
+	        	case KeyEvent.VK_UP:    dir = Direction.UP; break;
+	        	case KeyEvent.VK_RIGHT: dir = Direction.RIGHT; break;
+	        	case KeyEvent.VK_DOWN:  dir = Direction.DOWN; break;
+	        	case KeyEvent.VK_A: craft = 1; dir = Direction.LEFT; break;
+	        	case KeyEvent.VK_W: craft = 1; dir = Direction.UP; break;
+	        	case KeyEvent.VK_D: craft = 1; dir = Direction.RIGHT; break;
+	        	case KeyEvent.VK_S: craft = 1; dir = Direction.DOWN; break;
 	        	default: dir = null; 
         	}
         	if (dir != null)
