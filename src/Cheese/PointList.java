@@ -1,3 +1,5 @@
+import java.awt.Polygon;
+
 /**
  * Class encapsulating a list of points describing a polygon (cyclic) or a
  * line strip (not cyclic).
@@ -126,20 +128,21 @@ public class PointList {
 		if (size < 3)
 			deleteDoublePoints();
 		else {
-			/*Iterator<Point> it = points.iterator();
-			LinkedList<Point> toRemove = new LinkedList<Point>();
-			Point a = it.next();
-			Point b = it.next();
-			Point c = null;
-			while (it.hasNext()) {
-				c = it.next();
-				if ((a.x == b.x && b.x == c.x) || (a.y == b.y && b.y == c.y))
-					toRemove.add(b);
-				a = b;
-				b = c;
+			int[] toRemove = new int[size];
+			int remSize = 0;
+
+			for (int i = 1; i < size; ++i) {
+				int j = i + 1 % size;
+				Point a = points[i-1];
+				Point b = points[i];
+				Point c = points[j];
+				if ((a.x == b.x && b.x == c.x) || (a.y == b.y && b.y == c.y)) {
+					toRemove[remSize] = i;
+					++remSize;
+				}
 			}
-			points.removeAll(toRemove);*/
-			//TODO implement
+			for (int i = remSize - 1; i >= 0; --i)
+				remove(toRemove[i]);
 		}
 	}
 
@@ -151,9 +154,8 @@ public class PointList {
 	public boolean isInside(Point p) {
 		if (!cyclic)
 			return false;
-		//if (!getPolygon().contains(p))
-		//	return false;
-		//TODO impelment contains
+		if (!getPolygon().contains(new java.awt.Point(p.x, p.y)))
+			return false;
 		for (int i = 0; i < edgeSize; ++i) {
 			if (Edge.isOnEdge(p, edges[i]))
 				return false;
@@ -191,16 +193,14 @@ public class PointList {
 
 	public void setCyclic(boolean cyclic) { this.cyclic = cyclic; }
 
-	/*public Polygon getPolygon() {
-		int[] xpoints = new int[points.size()];
-		int[] ypoints = new int[points.size()];
-		int i = 0;
-		for (Point p : points) {
-			xpoints[i] = p.x;
-			ypoints[i] = p.y;
-			++i;
+	public Polygon getPolygon() {
+		int[] xpoints = new int[size];
+		int[] ypoints = new int[size];
+		for (int i = 0; i < size; ++i) {
+			xpoints[i] = points[i].x;
+			ypoints[i] = points[i].y;
 		}
-		return new Polygon(xpoints, ypoints, points.size());
-	}*/
+		return new Polygon(xpoints, ypoints, size);
+	}
 
 }

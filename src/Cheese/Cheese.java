@@ -1,3 +1,5 @@
+import java.awt.Polygon;
+
 public class Cheese {
 
 	private PointList vertices;
@@ -58,4 +60,5 @@ public class Cheese {
 	public boolean isOnBorder(Point p) { return vertices.isOnBorder(p);	}
 	@Override
 	public String toString() { return vertices.toString(); }
+	public Polygon getPolygon() { return vertices.getPolygon(); }
 }
