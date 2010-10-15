@@ -1,3 +1,5 @@
+package Cheese;
+
 /**
  * The world contains the cheeses, crafts and balls.
  *
@@ -130,7 +132,7 @@ public class World {
        float allScores = 0;
        for (int i = 0; i < players; ++i)
     	   allScores += crafts[i].getScore();
-       if (allScores > 0.9 * level)
+       if (allScores > 0.8 * level)
     	   initialize(level + 1);
 	}
 
