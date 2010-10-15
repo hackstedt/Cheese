@@ -78,17 +78,15 @@ public class PointList {
 	public void addVertex(Point p) {
 		if (size + 1 >= maxSize)
 			enlargeArray();
-		for (int i = 0; i < edgeSize; ++i) {
-			if (Edge.isOnEdge(p, edges[i])) {
-				int j = size-1;
-				while(edges[j-1].end != points[j]) {
-					points[j+1] = points[j];
-					j--;
-				}
-				points[j+1] = p;
-				createEdges();
-				break;
+		Edge e = getEdge(p);
+		if (e != null) {
+			int j = size - 1;
+			while(e.start != points[j]) {
+				points[j+1] = points[j];
+				j--;
 			}
+			points[j+1] = p;
+			createEdges();
 		}
 	}
 
@@ -120,7 +118,7 @@ public class PointList {
 
 	public void remove(int i) {
 		for (; i < size - 1; ++i)
-			points[i] = points[+1];
+			points[i] = points[i+1];
 		--size;
 	}
 
@@ -131,11 +129,10 @@ public class PointList {
 			int[] toRemove = new int[size];
 			int remSize = 0;
 
-			for (int i = 1; i < size; ++i) {
-				int j = i + 1 % size;
+			for (int i = 1; i < size - 1; ++i) {
 				Point a = points[i-1];
 				Point b = points[i];
-				Point c = points[j];
+				Point c = points[i + 1];
 				if ((a.x == b.x && b.x == c.x) || (a.y == b.y && b.y == c.y)) {
 					toRemove[remSize] = i;
 					++remSize;
@@ -156,10 +153,8 @@ public class PointList {
 			return false;
 		if (!getPolygon().contains(new java.awt.Point(p.x, p.y)))
 			return false;
-		for (int i = 0; i < edgeSize; ++i) {
-			if (Edge.isOnEdge(p, edges[i]))
-				return false;
-		}
+		if (isOnBorder(p))
+			return false;
 		return true;
 	}
 

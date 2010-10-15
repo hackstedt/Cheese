@@ -15,13 +15,6 @@ public class Edge {
 		return start.y == end.y;
 	}
 
-	public int getLength() {
-		if (horizontal())
-			return Math.abs(start.x - end.x);
-		else
-			return Math.abs(start.y - end.y);
-	}
-
 	public static boolean isOnEdge(Point p, Edge e) {
 		if (  e.horizontal()
 		   && p.y == e.start.y

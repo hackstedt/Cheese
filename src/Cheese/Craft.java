@@ -40,6 +40,7 @@ public class Craft {
     	if (lives < 0)
     		return;
     	previousPos = pos;
+		pos = new Point(pos);
 		if (direction == Direction.UP)
 			pos.y -= 1;
 		else if (direction == Direction.RIGHT)
