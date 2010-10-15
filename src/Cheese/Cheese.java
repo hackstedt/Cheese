@@ -29,7 +29,7 @@ public class Cheese {
 		Edge e = vertices.getEdge(cuttingEdge.getLast());
 		// now cuttingEge.getLast() lies on e
 
-		// welcher Sonderfall wird hier behandelt?
+		// we force the endpoints of cutting edge to lie on diffent edges
 		if (e == vertices.getEdge(cuttingEdge.getFirst())) {
 			vertices.addVertex(cuttingEdge.getFirst());
 			vertices.addVertex(cuttingEdge.getLast());

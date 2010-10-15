@@ -38,7 +38,7 @@ public class World {
 		this.level = level;
 		cheeseSize = 1;
 		maxCheeseSize = 100;
-		cheeses = new Cheese[cheeseSize];
+		cheeses = new Cheese[maxCheeseSize];
 		Point[] points = {new Point(left, bottom),
 								 new Point(right, bottom),
 								 new Point(right, top),

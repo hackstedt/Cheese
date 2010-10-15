@@ -95,6 +95,7 @@ public class PointList {
 		int j = 0;
 		while (edges[j] != e)
 			++j;
+		++j;
 		j = j % edgeSize;
 		return edges[j];
 	}
