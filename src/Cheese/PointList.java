@@ -86,6 +86,7 @@ public class PointList {
 				j--;
 			}
 			points[j+1] = p;
+			++size;
 			createEdges();
 		}
 	}
