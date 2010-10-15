@@ -151,13 +151,17 @@ public class PointList {
 
 	/// true iff p is inside the open polygon
 	public boolean isInside(Point p) {
-		if (!cyclic)
+		if (!cyclic || isOnBorder(p))
 			return false;
-		if (!getPolygon().contains(new java.awt.Point(p.x, p.y)))
-			return false;
-		if (isOnBorder(p))
-			return false;
-		return true;
+		boolean inside = false;
+		for (int i = 0; i < edgeSize; ++i) {
+			Point q = edges[i].start;
+			Point r = edges[i].end;
+			if ( ((r.y > p.y) != (q.y > p.y)) &&
+					(p.x < (q.x - r.x) * (p.y-r.y) / (q.y-r.y) + r.x) )
+				inside = !inside;
+		}
+		return inside;
 	}
 
 	public boolean isOnBorder(Point p) {
