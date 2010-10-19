@@ -12,6 +12,7 @@ public class World {
 	private int cheeseSize, maxCheeseSize;
 	private int level, players;
 	private int width, height, area;
+	private float deadCheeseArea;
 
 	/** Creates new World with specified size.
 	 * @param left - xposition of left border
@@ -39,6 +40,7 @@ public class World {
 		this.level = level;
 		cheeseSize = 1;
 		maxCheeseSize = 100;
+		deadCheeseArea = 0;
 		cheeses = new Cheese[maxCheeseSize];
 		Point[] points = {new Point(0, 0), new Point(width, 0), new Point(width, height), new Point(0, height) };
 		cheeses[0] = new Cheese(points, 4, true, true);
@@ -59,7 +61,47 @@ public class World {
 	 *  Changes the world every timer tick
 	 */
 	public void move(){
-		Edge e;
+		moveCrafts();
+		moveBalls();
+		killLoser();
+        if (deadCheeseArea > 0.9)
+    	    initialize(level + 1);
+	}
+
+	private void enlarge() {
+		maxCheeseSize = maxCheeseSize * 2;
+		Cheese[] tmp = cheeses;
+		cheeses = new Cheese[maxCheeseSize];
+		for (int i = 0; i < cheeseSize; ++i)
+			cheeses[i] = tmp[i];
+	}
+
+	private void killLoser() {
+		if (players < 2)
+			return;
+		int maxScorePlayerIndex = 0;
+		int minScorePlayerIndex = 0;
+		float maxScore = -1;
+		float minScore = 100;
+		for (int i = 0; i < players; ++i) {
+			if (crafts[i].getScore() > maxScore) {
+				maxScore = crafts[i].getScore();
+				maxScorePlayerIndex = i;
+			}
+			if (crafts[i].getScore() < minScore) {
+				minScore = crafts[i].getScore();
+				minScorePlayerIndex = i;
+			}
+		}
+		if (maxScore - minScore > 0.5) {
+			crafts[maxScorePlayerIndex].addLives(1);
+			crafts[minScorePlayerIndex].kill();
+			resetPlayersScore();
+		}
+
+	}
+
+	private void moveCrafts() {
 		// move the crafts
 		for (int i = 0; i < players; ++i) {
 			crafts[i].move();
@@ -94,10 +136,12 @@ public class World {
 						if (!addBalls(newCheeses[0])) {
 							newCheeses[0].setIsAlive(false);
 							crafts[i].addScore(newCheeses[0].getArea() / getArea());
+							deadCheeseArea += newCheeses[0].getArea() / getArea();
 						}
 						if (!addBalls(newCheeses[1])) {
 							newCheeses[1].setIsAlive(false);
 							crafts[i].addScore(newCheeses[1].getArea() / getArea());
+							deadCheeseArea += newCheeses[1].getArea() / getArea();
 						}
 						break;
 					}
@@ -108,6 +152,10 @@ public class World {
 			else
 				crafts[i].addCuttingEdgePoint();
 		}
+	}
+
+	private void moveBalls() {
+		Edge e;
 		// move the balls
 		for (int j = 0; j < level; ++j) {
 			balls[j].move();
@@ -125,19 +173,6 @@ public class World {
 					crafts[i].kill();
 			}
 		}
-       float allScores = 0;
-       for (int i = 0; i < players; ++i)
-    	   allScores += crafts[i].getScore();
-       if (allScores > 0.9 * level)
-    	   initialize(level + 1);
-	}
-
-	private void enlarge() {
-		maxCheeseSize = maxCheeseSize * 2;
-		Cheese[] tmp = cheeses;
-		cheeses = new Cheese[maxCheeseSize];
-		for (int i = 0; i < cheeseSize; ++i)
-			cheeses[i] = tmp[i];
 	}
 
 	/**
@@ -172,6 +207,11 @@ public class World {
 
 	private boolean insideWorld(Point p) {
 		return p.x >= 0 && p.x <= width && p.y >= 0 && p.y <= height;
+	}
+
+	private void resetPlayersScore() {
+		for (int i = 0; i < players; ++i)
+			crafts[i].resetScore();
 	}
 
 	public Craft[] getCrafts() { return crafts; }

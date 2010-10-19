@@ -12,7 +12,7 @@ public class RType extends JFrame {
 	private static final String[] GAMETYPE = {"SINGLE", "TWOPLAYERLOCAL", "TWOPLAYERNETWORK"};
     public RType() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(850, 600);
         setLocationRelativeTo(null);
         setTitle("Cheese");
     }

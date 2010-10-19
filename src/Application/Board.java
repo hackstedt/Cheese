@@ -14,6 +14,7 @@ public class Board extends JPanel implements ActionListener {
 	private World world;
 	private int worldWidth = 500;
 	private int worldHeight = 500;
+	private int informationPanalWidth = 250;
     private Timer timer;
 
     public Board() {
@@ -42,7 +43,7 @@ public class Board extends JPanel implements ActionListener {
     }
 
 	private int convertXToViewPort(int x) {
-		return 5+ (x*(getWidth()-10) / worldWidth);
+		return 5+ (x*(getWidth()-10-informationPanalWidth) / worldWidth);
 	}
 	private int convertYToViewPort(int y) {
 		return 5+ (y*(getHeight()-10) / worldHeight);
@@ -105,13 +106,11 @@ public class Board extends JPanel implements ActionListener {
 			drawArcViewport(world.getBalls()[i].getPosition().x,
 					  world.getBalls()[i].getPosition().y, 2, 2, 0 , 360, g);
 
-		// draw Scores
-		//int i = 1;
-		//for (Craft c : world.getCrafts()) {
-		//	g.drawString("Player " + i + ": " + c.toString(), 600, 10 * i);
-		//	++i;
-		//}
-
+		// draw information panel
+		int left = getWidth() - informationPanalWidth;
+		for (int i = 1; i <= world.getPlayerCount(); ++i) {
+			g.drawString("Player " + i + ": " + world.getCrafts()[i-1].toString(), left, 20 * i);
+		}
         Toolkit.getDefaultToolkit().sync();
         g.dispose();
     }
