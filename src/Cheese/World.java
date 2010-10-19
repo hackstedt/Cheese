@@ -48,9 +48,11 @@ public class World {
 			crafts[i].setPreviousPosition(crafts[i].getPosition());
 		}
 		balls = new Ball[level];
-		for (int i = 0; i < level; ++i)
+		for (int i = 0; i < level; ++i) {
 			balls[i] = (new Ball(new Point((i+1)*(width/2)/level, (i+1)*(height/2)/level),
 							   Direction.DOWNRIGHT));
+			balls[i].setCheese(cheeses[0]);
+		}
 	}
 
 	/**
@@ -89,11 +91,11 @@ public class World {
 							enlarge();
 						cheeses[cheeseSize] = newCheeses[1];
 						cheeseSize++;
-						if (!containsBall(newCheeses[0])) {
+						if (!addBalls(newCheeses[0])) {
 							newCheeses[0].setIsAlive(false);
 							crafts[i].addScore(newCheeses[0].getArea() / getArea());
 						}
-						if (!containsBall(newCheeses[1])) {
+						if (!addBalls(newCheeses[1])) {
 							newCheeses[1].setIsAlive(false);
 							crafts[i].addScore(newCheeses[1].getArea() / getArea());
 						}
@@ -109,23 +111,14 @@ public class World {
 		// move the balls
 		for (int j = 0; j < level; ++j) {
 			balls[j].move();
-			boolean reflected = false;
-			boolean onAnyEdge = false;
 			// maybe reflect
 			for (int i = 0; i < cheeseSize; ++i) {
-				if (cheeses[i].getVertices().isOnBorder(balls[j].getPosition()))
-					onAnyEdge = true;
 				e = cheeses[i].getVertices().getEdge(balls[j].getPosition());
 				if (e != null) {
 					balls[j].setDirection(Direction.reflect(balls[j].getDirection(), e, balls[j].getPosition()));
-					reflected = true;
 					break;
 				}
 			}
-			// stupid way to check
-			if (onAnyEdge && !reflected)
-				crafts = null;
-
 			// maybe kill a player
 			for (int i = 0; i < players; ++i) {
 				if (crafts[i].isOnCuttingEdge(balls[j].getPosition()))
@@ -160,12 +153,15 @@ public class World {
 	}
 
 	/// true iff ch contains any ball
-	private boolean containsBall(Cheese ch) {
+	private boolean addBalls(Cheese ch) {
+		boolean toReturn = false;
 		for (int i = 0; i < level; ++i) {
-			if (ch.isInside(balls[i].getPosition()))
-				return true;
+			if (ch.isInside(balls[i].getPosition())) {
+				balls[i].setCheese(ch);
+				toReturn = true;
+			}
 		}
-		return false;
+		return toReturn;
 	}
 
 	public void setCraftDirection(Direction dir, int craft) {
