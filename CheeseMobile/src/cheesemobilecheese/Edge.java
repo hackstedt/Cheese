@@ -1,4 +1,7 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Edge;
+import Cheese.Point;
 
 /**
  * Class encapsulation an edge.

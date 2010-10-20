@@ -1,4 +1,8 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Direction;
+import Cheese.Point;
+import Cheese.PointList;
 
 /**
  * @author Martin und Helge Boeschen

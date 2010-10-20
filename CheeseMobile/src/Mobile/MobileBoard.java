@@ -1,13 +1,14 @@
 package Mobile;
 
-import Cheese.Cheese;
-import Cheese.Craft;
-import Cheese.Direction;
-import Cheese.Edge;
-import Cheese.World;
 import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
+
+import cheesemobilecheese.Cheese;
+import cheesemobilecheese.Craft;
+import cheesemobilecheese.Direction;
+import cheesemobilecheese.Edge;
+import cheesemobilecheese.World;
 
 /**
  *

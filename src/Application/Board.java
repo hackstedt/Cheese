@@ -1,3 +1,5 @@
+package Application;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
@@ -8,6 +10,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import Cheese.*;
 
 public class Board extends JPanel implements ActionListener {
 	

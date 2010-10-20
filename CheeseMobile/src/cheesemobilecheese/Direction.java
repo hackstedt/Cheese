@@ -1,4 +1,8 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Direction;
+import Cheese.Edge;
+import Cheese.Point;
 
 public class Direction {
 

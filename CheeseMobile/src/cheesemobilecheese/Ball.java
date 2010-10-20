@@ -1,4 +1,7 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Direction;
+import Cheese.Point;
 
 public class Ball {
 

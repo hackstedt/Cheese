@@ -1,4 +1,10 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Ball;
+import Cheese.Craft;
+import Cheese.Direction;
+import Cheese.Edge;
+import Cheese.Point;
 
 /**
  * The world contains the cheeses, crafts and balls.

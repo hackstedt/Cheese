@@ -1,4 +1,6 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Point;
 
 /**
  *

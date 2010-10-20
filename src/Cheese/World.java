@@ -1,3 +1,6 @@
+package Cheese;
+
+
 /**
  * The world contains the cheeses, crafts and balls.
  *

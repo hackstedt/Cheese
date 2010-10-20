@@ -1,4 +1,8 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Edge;
+import Cheese.Point;
+import Cheese.PointList;
 
 /**
  * Class encapsulating a list of points describing a polygon (cyclic) or a

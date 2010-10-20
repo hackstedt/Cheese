@@ -1,4 +1,8 @@
-package Cheese;
+package cheesemobilecheese;
+
+import Cheese.Edge;
+import Cheese.Point;
+import Cheese.PointList;
 
 public class Cheese {
 

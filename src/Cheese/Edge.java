@@ -1,3 +1,6 @@
+package Cheese;
+
+
 /**
  * Class encapsulation an edge.
  *

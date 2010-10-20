@@ -1,3 +1,5 @@
+package Cheese;
+
 public class Ball {
 
 	private Point pos;

@@ -1,3 +1,5 @@
+package Cheese;
+
 public class Direction {
 
     public static final Direction UP = new Direction("Up");
