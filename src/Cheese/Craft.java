@@ -58,19 +58,26 @@ public class Craft {
 		pos.y = cuttingEdge.getFirst().y;
 		previousPos = pos;
 		clearCuttingEdge();
+		direction = null;
 	}
 
 	@Override
-	public String toString() { return "Score: " + (int)(1000*score)
-			+ ", Lives: " + lives; }
+	public String toString() { 
+		String toReturn = "Lives: " + lives + " Score: ";
+		for (float f = 0; f < score; f+=0.1)
+			toReturn = toReturn.concat("x");
+		return toReturn;
+	}
     public void setPosition(Point p) { pos = p; }
     public void setPreviousPosition(Point p) { previousPos = p; }
     public void setDirection(Direction dir) { this.direction = dir; }
     public void addScore(float score) { this.score += score; }
+	public void addLives(int lives) { this.lives += lives; }
     public Point getPosition(){	return pos; }
     public Point getPreviousPosition(){ return previousPos; }
     public PointList getCuttingEdge() {	return cuttingEdge; }
 	public Direction getDirection() { return direction; }
 	public int getLives() { return lives; }
 	public float getScore() { return score; }
+	public void resetScore() { score = 0; }
 }
